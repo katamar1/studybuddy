@@ -1,6 +1,9 @@
 package com.studybuddy.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -11,9 +14,15 @@ public class StudyUser {
     private Long id;
     private String firstName;
     private String lastName;
+    @Email(message = "Please provide a valid email")
+    @NotBlank(message = "Email is required")
     private String email;
 
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 20, message = "Username must be between 3–20 characters")
     private String username;
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
 

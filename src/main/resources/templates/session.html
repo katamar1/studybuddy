@@ -11,15 +11,20 @@
 
     <div class="card shadow-sm mx-auto" style="max-width: 600px;">
         <div class="card-body">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                Please fix the errors below before submitting.
+            </div>
             <form th:action="@{/session}" th:object="${sessionForm}" method="post">
                 <div class="mb-3">
                     <label for="startTime" class="form-label">Start Time</label>
                     <input type="datetime-local" id="startTime" th:field="*{startTime}" class="form-control" required>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="endTime" class="form-label">End Time</label>
                     <input type="datetime-local" id="endTime" th:field="*{endTime}" class="form-control" required>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"></div>
                 </div>
 
                 <div class="mb-3">
@@ -32,11 +37,13 @@
                         <option value="Homework">Homework</option>
                         <option value="Group Study">Group Study</option>
                     </select>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="reflection" class="form-label">Reflection</label>
                     <textarea id="reflection" th:field="*{reflection}" class="form-control" rows="4" placeholder="What did you work on or learn?"></textarea>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('reflection')}" th:errors="*{reflection}"></div>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Save Session</button>

@@ -4,10 +4,12 @@ import com.studybuddy.entity.StudySession;
 import com.studybuddy.entity.StudyUser;
 import com.studybuddy.repository.StudySessionRepository;
 import com.studybuddy.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,10 @@ public class SessionController {
     }
 
     @PostMapping("/session")
-    public String storeSession(@ModelAttribute("sessionForm") StudySession sessionForm) {
+    public String storeSession(@ModelAttribute("sessionForm") @Valid StudySession sessionForm, BindingResult result) {
+        if (result.hasErrors()) {
+            return "session";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 

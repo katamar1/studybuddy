@@ -1,6 +1,9 @@
 package com.studybuddy.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,11 +14,15 @@ public class StudySession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Start time is required")
 
     private LocalDateTime startTime;
+    @NotNull(message = "End time is required")
     private LocalDateTime endTime;
 
+    @NotBlank(message = "Type is required")
     private String type;
+    @Size(max = 1000, message = "Reflection can't be longer than 1000 characters")
     private String reflection;
 
     @ManyToOne
