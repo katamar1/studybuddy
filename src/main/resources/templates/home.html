@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyBuddy – Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5 text-center">
+    <h1 class="display-4 fw-bold text-primary">StudyBuddy</h1>
+    <p class="lead text-secondary">Track your study time. Stay accountable. Grow together.</p>
+
+    <div class="card mx-auto mt-5 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+            <h5 class="card-title">Tell us about yourself:</h5>
+            <form action="/home" method="post" th:action="@{/home}" th:object="${userForm}">
+                <div class="mb-3">
+                    <label>
+                        <input type="text" th:field="*{firstName}" class="form-control" placeholder="First name" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="text" th:field="*{lastName}" class="form-control" placeholder="Last name" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="Email address" required>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="mt-5 text-muted small">
+        &copy; 2025 StudyBuddy. Built with Spring Boot + Thymeleaf.
+    </footer>
+</div>
+</body>
+</html>
