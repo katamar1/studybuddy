@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -43,6 +45,7 @@ public class DashboardController {
             data.put("end", s.getEndTime() != null ? s.getEndTime().format(formatter) : "N/A");
             data.put("type", s.getType());
             data.put("reflection", s.getReflection());
+            data.put("usedAI", s.isUsedAI());
 
             if (s.getStartTime() != null && s.getEndTime() != null) {
                 long mins = Duration.between(s.getStartTime(), s.getEndTime()).toMinutes();
@@ -67,6 +70,25 @@ public class DashboardController {
         model.addAttribute("sessionList", sessionData);
         model.addAttribute("totalTime", totalTime);
 
+        model.addAttribute("clubs", user.getClubs());
+        model.addAttribute("classes", user.getCourses());
+        model.addAttribute("anonymous", user.isAnonymous());
+
+
         return "dashboard";
     }
+
+    @PostMapping("/toggle-anonymous")
+    public String toggleAnonymous(@RequestParam(value = "anonymous", required = false) String anonymous) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        StudyUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setAnonymous(anonymous != null);
+        userRepository.save(user);
+
+        return "redirect:/dashboard";
+    }
+
 }

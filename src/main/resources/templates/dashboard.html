@@ -16,6 +16,21 @@
         </div>
     </div>
 
+    <div class="mb-4">
+        <h4>Clubs</h4>
+        <ul>
+            <li th:each="club : ${clubs}" th:text="${club.name}"></li>
+        </ul>
+    </div>
+
+    <div class="mb-4">
+        <h4>Courses</h4>
+        <ul>
+            <li th:each="course : ${courses}" th:text="${course.name}"></li>
+        </ul>
+    </div>
+
+
     <div class="row">
         <div class="col-md-12" th:if="${sessionList != null}">
             <div class="table-responsive">
@@ -27,6 +42,8 @@
                         <th>Duration</th>
                         <th>Type</th>
                         <th>Reflection</th>
+                        <th>Used AI</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -36,6 +53,11 @@
                         <td th:text="${item.duration}">Duration</td>
                         <td th:text="${item.type}">Type</td>
                         <td th:text="${item.reflection}">Reflection</td>
+                        <td>
+                            <span th:if="${item.usedAI}">✔️</span>
+                            <span th:unless="${item.usedAI}">—</span>
+                        </td>
+
                     </tr>
 
                     </tbody>
@@ -47,6 +69,14 @@
             <a href="/session" class="btn btn-primary">Log a Study Session</a>
         </div>
     </div>
+
+    <form th:action="@{/toggle-anonymous}" method="post" class="mb-4">
+        <label>
+            <input type="checkbox" name="anonymous" th:checked="${anonymous}"> Appear as anonymous on leaderboard
+        </label>
+        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Save</button>
+    </form>
+
 
     <div class="text-center mt-4">
         <a href="/session" class="btn btn-outline-secondary">Add New Session</a>

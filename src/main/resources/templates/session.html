@@ -11,10 +11,10 @@
 
     <div class="card shadow-sm mx-auto" style="max-width: 600px;">
         <div class="card-body">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                Please fix the errors below before submitting.
-            </div>
             <form th:action="@{/session}" th:object="${sessionForm}" method="post">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    Please fix the errors below before submitting.
+                </div>
                 <div class="mb-3">
                     <label for="startTime" class="form-label">Start Time</label>
                     <input type="datetime-local" id="startTime" th:field="*{startTime}" class="form-control" required>
@@ -45,6 +45,12 @@
                     <textarea id="reflection" th:field="*{reflection}" class="form-control" rows="4" placeholder="What did you work on or learn?"></textarea>
                     <div class="text-danger small" th:if="${#fields.hasErrors('reflection')}" th:errors="*{reflection}"></div>
                 </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="usedAI" th:field="*{usedAI}">
+                    <label class="form-check-label" for="usedAI">Used AI tools?</label>
+                </div>
+
 
                 <button type="submit" class="btn btn-primary w-100">Save Session</button>
             </form>

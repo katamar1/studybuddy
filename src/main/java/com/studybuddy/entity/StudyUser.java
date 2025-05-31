@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class StudyUser {
@@ -24,6 +27,26 @@ public class StudyUser {
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
+
+    private boolean anonymous = false;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_club",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id")
+    )
+    private Set<Club> clubs = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courses = new HashSet<>();
+
+
 
 
     public StudyUser() {}
@@ -85,6 +108,25 @@ public class StudyUser {
     }
 
 
+    public Set<Club> getClubs() {
+        return clubs;
+    }
+
+    public void setClubs(Set<Club> clubs) {
+        this.clubs = clubs;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
+    }
 }
 
 

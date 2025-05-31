@@ -24,6 +24,10 @@ public class StudySession {
     private String type;
     @Size(max = 1000, message = "Reflection can't be longer than 1000 characters")
     private String reflection;
+    private boolean usedAI;
+
+
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -90,6 +94,14 @@ public class StudySession {
 
     public void setUser(StudyUser user) {
         this.user = user;
+    }
+
+    public boolean isUsedAI() {
+        return usedAI;
+    }
+
+    public void setUsedAI(boolean usedAI) {
+        this.usedAI = usedAI;
     }
 
     public long getDurationHours() {
