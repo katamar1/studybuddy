@@ -1,46 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>Register – StudyBuddy</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body{background:radial-gradient(circle at 50% 10%,#1e2126 0%,#111317 80%);}
+        .glass-card{backdrop-filter:blur(8px);background:rgba(33,37,41,.65);
+            border:1px solid rgba(255,255,255,.05);box-shadow:0 .5rem 1.5rem rgba(0,0,0,.6);}
+        .btn-hover-lift:hover{transform:translateY(-2px);box-shadow:0 .5rem 1rem rgba(0,0,0,.35);}
+    </style>
 </head>
-<body class="bg-light">
-<div class="container py-5">
-    <h1 class="text-center text-primary mb-4">Create Your Account</h1>
 
-    <div class="card mx-auto shadow-sm" style="max-width: 500px;">
-        <div class="card-body">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                Please fix the errors below before submitting.
-            </div>
-            <form th:action="@{/register}" th:object="${userForm}" method="post">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="Username" required>
-                    <div class="text-danger small" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+<body class="d-flex justify-content-center align-items-center vh-100 text-light">
+
+<div class="container px-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form class="glass-card card p-4"
+                  th:action="@{/register}" th:object="${userForm}" method="post">
+
+                <h2 class="text-center fw-semibold mb-4">
+                    <i class="bi bi-person-plus-fill me-1 text-primary"></i>Create Account
+                </h2>
+
+                <div class="alert alert-danger py-2 mb-4 text-center"
+                     th:if="${#fields.hasErrors('*')}">
+                    Please fix the errors below before submitting.
                 </div>
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="name@example.com" required>
-                    <div class="text-danger small" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    <label class="form-label">Username</label>
+                    <label>
+                        <input class="form-control" th:field="*{username}" required>
+                    </label>
+                    <div class="text-danger small" th:errors="*{username}"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Enter a strong password" required>
-                    <div class="text-danger small" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <label class="form-label">Email</label>
+                    <label>
+                        <input type="email" class="form-control" th:field="*{email}" required>
+                    </label>
+                    <div class="text-danger small" th:errors="*{email}"></div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Register</button>
+
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <label>
+                        <input type="password" class="form-control" th:field="*{password}" required>
+                    </label>
+                    <div class="text-danger small" th:errors="*{password}"></div>
+                </div>
+
+                <button class="btn btn-primary w-100 btn-hover-lift">
+                    <i class="bi bi-check-circle me-1"></i>Register
+                </button>
             </form>
 
+            <div class="text-center mt-3 small">
+                Already have an account?
+                <a href="/login" class="link-light text-decoration-underline">Log in →</a>
+            </div>
         </div>
     </div>
-
-    <div class="text-center mt-4">
-        <a href="/login" class="text-decoration-none">Already have an account? Log in &rarr;</a>
-    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

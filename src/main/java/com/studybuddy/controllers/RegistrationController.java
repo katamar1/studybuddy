@@ -38,6 +38,6 @@ public class RegistrationController {
         String hashed = passwordEncoder.encode(userForm.getPassword());
         userForm.setPassword(hashed);
         userRepository.save(userForm);
-        return "redirect:/home";
+        return "redirect:/login";
     }
 }

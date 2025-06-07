@@ -1,86 +1,165 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>StudyBuddy – Dashboard</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #15171a;
+        }
+
+        .card-header.bg-gradient {
+            background: linear-gradient(135deg,
+            var(--bs-primary) 0%,
+            #2043b8 100%);
+            color: #fff;
+        }
+
+        .list-group-item::before {
+            content: "•";
+            color: var(--bs-primary);
+            margin-right: .6rem;
+        }
+
+        .table-responsive thead th {
+            background-color: #1f2024;
+        }
+
+        .card.shadow-sm {
+            box-shadow: 0 0.25rem 0.7rem rgba(0,0,0,0.5) !important;
+        }
+    </style>
 </head>
-<body class="bg-light">
-<div class="container py-5">
-    <h1 class="text-primary text-center mb-4">Your Study Dashboard</h1>
 
-    <div class="mb-4 text-center">
-        <div class="alert alert-info fw-semibold">
-            Total Time Studied This Week:
-            <span th:text="${totalTime}">0 hours</span>
-        </div>
-    </div>
+<body>
+<div class="container-lg py-5">
 
-    <div class="mb-4">
-        <h4>Clubs</h4>
-        <ul>
-            <li th:each="club : ${clubs}" th:text="${club.name}"></li>
-        </ul>
-    </div>
+    <h1 class="display-5 fw-semibold text-center mb-5 text-light">
+        <i class="bi bi-speedometer2 me-2"></i>Your Study Dashboard
+    </h1>
 
-    <div class="mb-4">
-        <h4>Courses</h4>
-        <ul>
-            <li th:each="course : ${courses}" th:text="${course.name}"></li>
-        </ul>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-12" th:if="${sessionList != null}">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead class="table-primary">
-                    <tr>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Duration</th>
-                        <th>Type</th>
-                        <th>Reflection</th>
-                        <th>Used AI</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${sessionList}">
-                        <td th:text="${item.start}">Start</td>
-                        <td th:text="${item.end}">End</td>
-                        <td th:text="${item.duration}">Duration</td>
-                        <td th:text="${item.type}">Type</td>
-                        <td th:text="${item.reflection}">Reflection</td>
-                        <td>
-                            <span th:if="${item.usedAI}">✔️</span>
-                            <span th:unless="${item.usedAI}">—</span>
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center shadow-sm">
+                <div class="card-header bg-gradient">
+                    <i class="bi bi-stopwatch"></i> This Week
+                </div>
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0 text-light" th:text="${totalTime}">0 hours</h2>
+                    <small class="text-secondary">total study time</small>
+                </div>
             </div>
         </div>
-        <div th:if="${sessionList == null or sessionList.isEmpty()}" class="text-center mt-5">
-            <p class="text-muted">No sessions logged yet. Start tracking your study time!</p>
-            <a href="/session" class="btn btn-primary">Log a Study Session</a>
+    </div>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light bg-opacity-10 fw-semibold text-light">
+                    <i class="bi bi-people me-1"></i>Clubs
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent text-secondary"
+                        th:if="${#lists.isEmpty(clubs)}">No clubs yet</li>
+                    <li class="list-group-item bg-transparent text-light"
+                        th:each="club : ${clubs}"
+                        th:text="${club.name}">Algorithms Club</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light bg-opacity-10 fw-semibold text-light">
+                    <i class="bi bi-journal-bookmark me-1"></i>Courses
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent text-secondary"
+                        th:if="${#lists.isEmpty(courses)}">No courses yet</li>
+                    <li class="list-group-item bg-transparent text-light"
+                        th:each="course : ${courses}"
+                        th:text="${course.name}">CSE 312</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <form th:action="@{/toggle-anonymous}" method="post" class="mb-4">
-        <label>
-            <input type="checkbox" name="anonymous" th:checked="${anonymous}"> Appear as anonymous on leaderboard
-        </label>
-        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Save</button>
+    <div class="card shadow-sm mb-5">
+        <div class="card-header bg-light bg-opacity-10 fw-semibold text-light">
+            <i class="bi bi-journal-text me-1"></i>Study Sessions
+        </div>
+
+        <div th:if="${sessionList == null or sessionList.isEmpty()}"
+             class="card-body text-center">
+            <p class="text-secondary mb-4">No sessions logged yet. Start tracking your study time!</p>
+            <a href="/session" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>Log a Session
+            </a>
+        </div>
+
+        <div class="table-responsive"
+             th:if="${sessionList != null and !sessionList.isEmpty()}">
+            <table class="table table-dark table-hover align-middle mb-0">
+                <thead>
+                <tr class="text-nowrap">
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Duration</th>
+                    <th>Type</th>
+                    <th>Reflection</th>
+                    <th class="text-center">AI ?</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${sessionList}">
+                    <td th:text="${item.start}">Start</td>
+                    <td th:text="${item.end}">End</td>
+                    <td th:text="${item.duration}">Duration</td>
+                    <td th:text="${item.type}">Type</td>
+                    <td th:text="${item.reflection}">Reflection</td>
+                    <td class="text-center">
+                        <i th:if="${item.usedAI}" class="bi bi-check-circle-fill text-success"></i>
+                        <i th:unless="${item.usedAI}" class="bi bi-dash-lg text-secondary"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <form th:action="@{/toggle-anonymous}" method="post"
+          class="d-flex align-items-center justify-content-center gap-2 mb-5">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="anonymous"
+                   th:checked="${anonymous}" id="anonSwitch">
+            <label class="form-check-label text-light" for="anonSwitch">
+                Appear anonymous on leaderboard
+            </label>
+        </div>
+        <button type="submit" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-save me-1"></i>Save
+        </button>
     </form>
 
-
-    <div class="text-center mt-4">
-        <a href="/session" class="btn btn-outline-secondary">Add New Session</a>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="/leaderboard" class="btn btn-primary">
+            <i class="bi bi-trophy me-1"></i>Leaderboard
+        </a>
+        <a href="/session" class="btn btn-outline-secondary">
+            <i class="bi bi-plus-circle me-1"></i>Add Session
+        </a>
+        <a href="/clubs" class="btn btn-outline-primary">
+            <i class="bi bi-people me-1"></i>Join/Create Club
+        </a>
     </div>
+
 </div>
+
 </body>
 </html>
