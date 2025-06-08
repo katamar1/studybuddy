@@ -71,7 +71,7 @@ public class DashboardController {
         model.addAttribute("totalTime", totalTime);
 
         model.addAttribute("clubs", user.getClubs());
-        model.addAttribute("classes", user.getCourses());
+        model.addAttribute("courses", user.getCourses());
         model.addAttribute("anonymous", user.isAnonymous());
 
 
