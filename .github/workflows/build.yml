@@ -40,12 +40,10 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
 
-      - name: Verify with Maven (tests included)
-        run: |
-          export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/studybuddy
-          export SPRING_DATASOURCE_USERNAME=testuser
-          export SPRING_DATASOURCE_PASSWORD=testpass
-          ./mvnw -B verify
+
+
+      - name: Verify with Maven
+        run: ./mvnw -B verify
 
       - name: Build Docker image
         run: docker build -t studybuddy:latest .
