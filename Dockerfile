@@ -8,7 +8,7 @@ RUN ./mvnw dependency:go-offline
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/app.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
